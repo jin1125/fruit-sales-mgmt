@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="statistics">
+  <h2 class="statistics__title">
+    販売統計情報
+  </h2>
+
+  <ol class="statistics__breadcrumb">
+    <li class="statistics__breadcrumb-list">
+      <a
+        class="statistics__breadcrumb-link"
+        href="{% url 'mgmt:top' %}">
+        TOP
+      </a>
+    </li>
+
+    <li class="statistics__breadcrumb-list">
+      販売統計情報
+    </li>
+  </ol>
+
+  <div class="statistics__all-period">
+    <h3 class="statistics__period-title">
+      累計
+    </h3>
+    <p class="statistics__all-period-total">
+      {{ all_period_total}}円
+    </p>
+  </div>
+
+  <div class="statistics__monthly-sales">
+    <h3 class="statistics__period-title">
+      月別
+    </h3>
+
+    <table class="statistics__table">
+      <tr class="statistics__table-row">
+        {% for table_header in monthly_table_headers %}
+          <th class="statistics__table-header">
+            {{ table_header }}
+          </th>
+        {% endfor %}
+      </tr>
+
+      {% for key, value in monthly_sales.items %}
+        <tr class="statistics__table-row">
+          <td class="statistics__table-data">
+            {{ key }}
+          </td>
+          <td class="statistics__table-data">
+            {{ value.period_total }}円
+          </td>
+          <td class="statistics__table-data">
+            {% for a, b in value.breakdown.items %}
+              <span>
+                {{ a }}: {{ b.total }}円({{ b.quantity }})
+              </span>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div>
+    <h3 class="statistics__period-title">
+      日別
+    </h3>
+
+    <table class="statistics__table">
+      <tr class="statistics__table-row">
+        {% for table_header in daily_table_headers %}
+          <th class="statistics__table-header">
+            {{ table_header }}
+          </th>
+        {% endfor %}
+      </tr>
+
+      {% for key, value in daily_sales.items %}
+        <tr class="statistics__table-row">
+          <td class="statistics__table-data">
+            {{ key }}
+          </td>
+          <td class="statistics__table-data">
+            {{ value.period_total }}円
+          </td>
+          <td class="statistics__table-data">
+            {% for a, b in value.breakdown.items %}
+              <span>
+                {{ a }}: {{ b.total }}円({{ b.quantity }})
+              </span>
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

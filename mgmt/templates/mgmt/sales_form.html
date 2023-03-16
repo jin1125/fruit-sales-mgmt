@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="sales__form">
+  <h2 class="sales__form-title">
+    {% if not form.instance.pk %}
+      販売情報登録
+    {% endif %}
+
+    {% if form.instance.pk %}
+      販売情報編集
+    {% endif %}
+  </h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      <div class="sales__form-field">
+        <label class="sales__form-label" for="{{ field.id_for_label }}">
+          {{ field.label }}
+        </label>
+        <div class="sales__form-input">
+          {{ field }}
+        </div>
+
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+
+    <button class="sales__form-btn" type="submit">
+      {% if not form.instance.pk %}
+        登録
+      {% else %}
+        編集
+      {% endif %}
+    </button>
+  </form>
+</div>
+{% endblock %}

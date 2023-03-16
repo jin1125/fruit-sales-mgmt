@@ -1,0 +1,34 @@
+@use "mixin";
+
+.statistics {
+  margin: 30px;
+
+  &__title {
+    @include mixin.title();
+  }
+
+  &__breadcrumb {
+    @include mixin.breadcrumb();
+  }
+
+  &__period-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  &__all-period {
+    margin-top: 40px;
+
+    &-total {
+      font-size: 20px;
+    }
+  }
+
+  &__monthly-sales {
+    margin: 40px 0;
+  }
+
+  &__table {
+    @include mixin.table(60%);
+  }
+}

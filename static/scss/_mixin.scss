@@ -1,0 +1,85 @@
+@mixin title($m: 0) {
+  font-size: 30px;
+  margin: $m;
+}
+
+@mixin formField() {
+  align-items: center;
+  column-gap: 25px;
+  display: grid;
+  grid-template-columns: 100px 200px;
+  justify-content: center;
+  margin-bottom: 30px;
+
+  .errorlist {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    margin-top: 10px;
+  }
+}
+
+@mixin formInput() {
+  border: solid;
+
+  input {
+    width: 100%;
+  }
+}
+
+@mixin btn($mt: 30px) {
+  border: solid;
+  box-shadow: 3px 3px black;
+  margin-top: $mt;
+  padding: 10px 25px;
+}
+
+@mixin link($fSize: 16px) {
+  color: #0000FF;
+  display: inline-block;
+  font-size: $fSize;
+  text-decoration: underline;
+  vertical-align: bottom;
+}
+
+@mixin breadcrumb() {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 0 30px;
+
+  &-list:not(:last-of-type)::after {
+    content: ">";
+    margin: 0 10px;
+  }
+
+  &-link {
+    @include link();
+  }
+}
+
+@mixin table($w: 80%) {
+  border: 2px solid;
+  border-collapse: collapse;
+  min-width: $w;
+
+  &-row:nth-child(2n+2) {
+    background-color: #EEEEEE;
+  }
+
+  &-header {
+    background-color: #CCCCCC;
+    border-right: 2px solid;
+    font-weight: normal;
+    padding: 3px 5px;
+  }
+
+  &-data {
+    border-right: 2px solid;
+    padding: 10px 5px;
+  }
+}
+
+@mixin wrapper($mt: 30px) {
+  margin-top: 30px;
+  text-align: right;
+  width: 80%;
+}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="fruit__form">
+  <h2 class="fruit__form-title">
+    {% if not form.instance.pk %}
+      果物登録
+    {% endif %}
+
+    {% if form.instance.pk %}
+      果物編集
+    {% endif %}
+  </h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      <div class="fruit__form-field">
+        <label class="fruit__form-label" for="{{ field.id_for_label }}">
+          {{ field.label }}
+        </label>
+        <div class="fruit__form-input">
+          {{ field }}
+        </div>
+
+        {{ field.errors }}
+      </div>
+    {% endfor %}
+
+    <button class="fruit__form-btn" type="submit">
+      {% if not form.instance.pk %}
+        登録
+      {% else %}
+        編集
+      {% endif %}
+    </button>
+  </form>
+</div>
+{% endblock %}

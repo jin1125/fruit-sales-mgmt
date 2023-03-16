@@ -1,0 +1,22 @@
+@use "mixin";
+
+.top {
+  text-align: center;
+
+  &__title {
+    @include mixin.title((30px 0 60px));
+  }
+
+  &__list {
+    display: inline-block;
+  }
+
+  &__item {
+    margin-bottom: 50px;
+    text-align: left;
+  }
+
+  &__link {
+    @include mixin.link(25px);
+  }
+}

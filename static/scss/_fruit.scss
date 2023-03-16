@@ -1,0 +1,67 @@
+@use "mixin";
+
+.fruit {
+  margin: 30px;
+
+  &__title {
+    @include mixin.title();
+  }
+
+  &__breadcrumb {
+    @include mixin.breadcrumb();
+  }
+
+  &__table {
+    @include mixin.table();
+  }
+
+  &__update {
+    &-link {
+      @include mixin.link();
+    }
+  }
+
+  &__delete {
+    &-form {
+      display: inline-block;
+    }
+
+    &-link {
+      @include mixin.link();
+    }
+  }
+
+  &__create {
+    &-wrapper {
+      @include mixin.wrapper();
+    }
+
+    &-btn {
+      @include mixin.btn();
+    }
+  }
+
+  &__form {
+    text-align: center;
+
+    &-title {
+      @include mixin.title((60px 0 30px));
+    }
+
+    &-field {
+      @include mixin.formField();
+    }
+
+    &-label {
+      justify-self: end;
+    }
+
+    &-input {
+      @include mixin.formInput();
+    }
+
+    &-btn {
+      @include mixin.btn();
+    }
+  }
+}

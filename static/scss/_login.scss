@@ -1,0 +1,23 @@
+@use "mixin";
+
+.login {
+  text-align: center;
+
+  &__title {
+    @include mixin.title((60px 0 30px));
+  }
+
+  &__form {
+    &-field {
+      @include mixin.formField();
+    }
+
+    &-input {
+      @include mixin.formInput();
+    }
+
+    &-btn {
+      @include mixin.btn();
+    }
+  }
+}

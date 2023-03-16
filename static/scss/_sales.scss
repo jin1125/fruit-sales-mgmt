@@ -1,0 +1,107 @@
+@use "mixin";
+
+.sales {
+  margin: 30px;
+
+  &__title {
+    @include mixin.title();
+  }
+
+  &__breadcrumb {
+    @include mixin.breadcrumb();
+  }
+
+  &__table {
+    @include mixin.table();
+  }
+
+  &__update {
+    &-link {
+      @include mixin.link();
+    }
+  }
+
+  &__delete {
+    &-form {
+      display: inline-block;
+    }
+
+    &-link {
+      @include mixin.link();
+    }
+  }
+
+  &__create {
+    &-wrapper {
+      @include mixin.wrapper();
+    }
+
+    &-btn {
+      @include mixin.btn();
+    }
+  }
+
+  &__csv {
+    &-form {
+      margin: 0 30px 50px;
+
+      &-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      &-field {
+        column-gap: 25px;
+        display: flex;
+        margin-top: 10px;
+      }
+
+      &-label {
+        align-items: center;
+        border: solid;
+        display: flex;
+        height: 40px;
+        width: 200px;
+
+        input {
+          display: none;
+        }
+      }
+
+      &-filename {
+        overflow: hidden;
+        padding-left: 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &-btn {
+        @include mixin.btn(0);
+      }
+    }
+  }
+
+  &__form {
+    text-align: center;
+
+    &-title {
+      @include mixin.title((60px 0 30px));
+    }
+
+    &-field {
+      @include mixin.formField();
+    }
+
+    &-label {
+      justify-self: end;
+    }
+
+    &-input {
+      @include mixin.formInput();
+    }
+
+    &-btn {
+      @include mixin.btn();
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="fruit">
+  <h2 class="fruit__title">
+    果物マスタ管理
+  </h2>
+
+  <ol class="fruit__breadcrumb">
+    <li class="fruit__breadcrumb-list">
+      <a class="fruit__breadcrumb-link" href="{% url 'mgmt:top' %}">
+        TOP
+      </a>
+    </li>
+
+    <li class="fruit__breadcrumb-list">
+      果物マスタ管理
+    </li>
+  </ol>
+
+  <table class="fruit__table">
+    <tr class="fruit__table-row">
+      {% for table_header in table_headers %}
+        <th class="fruit__table-header">
+          {{ table_header }}
+        </th>
+      {% endfor %}
+    </tr>
+
+    {% for fruit in fruit_list %}
+      <tr class="fruit__table-row">
+        <td class="fruit__table-data">
+          {{fruit.pk}}
+        </td>
+        <td class="fruit__table-data">
+          {{fruit.name}}
+        </td>
+        <td class="fruit__table-data">
+          {{fruit.price}}
+        </td>
+        <td class="fruit__table-data">
+          {{fruit.created_at | date:'Y-m-d'}}
+        </td>
+        <td class="fruit__table-data">
+          <a
+            class="fruit__update-link"
+            href="{% url 'mgmt:fruit_update' fruit.pk %}">
+            編集
+          </a>
+          <form
+            class="fruit__delete-form"
+            action="{% url 'mgmt:fruit_delete' fruit.pk %}"
+            method="POST">
+            {% csrf_token %}
+            <button class="fruit__delete-link" type="submit">
+              削除
+            </button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <div class="fruit__create-wrapper">
+    <a class="fruit__create-btn" href="{% url 'mgmt:fruit_create' %}">
+      新規追加
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block js %}
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="sales">
+  <h2 class="sales__title">
+    販売情報管理
+  </h2>
+
+  <ol class="sales__breadcrumb">
+    <li class="sales__breadcrumb-list">
+      <a class="sales__breadcrumb-link" href="{% url 'mgmt:top' %}">
+        TOP
+      </a>
+    </li>
+
+    <li class="sales__breadcrumb-list">
+      販売情報管理
+    </li>
+  </ol>
+
+  <table class="sales__table">
+    <tr class="sales__table-row">
+      {% for table_header in table_headers %}
+        <th class="sales__table-header">
+          {{ table_header }}
+        </th>
+      {% endfor %}
+    </tr>
+
+    {% for sales in sales_list %}
+      <tr class="sales__table-row">
+        <td class="sales__table-data">
+          {{sales.fruit.name}}
+        </td>
+        <td class="sales__table-data">
+          {{sales.quantity}}
+        </td>
+        <td class="sales__table-data">
+          {{sales.total}}
+        </td>
+        <td class="sales__table-data">
+          {{sales.sale_date | date:'Y-m-d H:i'}}
+        </td>
+        <td class="sales__table-data">
+          <a
+            class="sales__update-link"
+            href="{% url 'mgmt:sales_update' sales.pk %}">
+            編集
+          </a>
+        </td>
+        <td class="sales__table-data">
+          <form
+            class="sales__delete-form"
+            action="{% url 'mgmt:sales_delete' sales.pk %}"
+            method="POST">
+            {% csrf_token %}
+            <button class="sales__delete-link" type="submit">
+              削除
+            </button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <div class="sales__create-wrapper">
+    <a class="sales__create-btn" href="{% url 'mgmt:sales_create' %}">
+      販売情報登録
+    </a>
+  </div>
+</div>
+
+<div class="sales__csv-form">
+  <h3 class="sales__csv-form-title">
+    CSV一括登録
+  </h3>
+
+  <form enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+    {{ form.csv.errors }}
+
+    <div class="sales__csv-form-field">
+      <label class="sales__csv-form-label" for="{{ form.csv.id_for_label }}">
+        {{ form.csv }}
+        <span
+          id="sales-csv-form-filename"
+          class="sales__csv-form-filename">
+        </span>
+      </label>
+
+      <button class="sales__csv-form-btn" type="submit">
+        CSVアップロード
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

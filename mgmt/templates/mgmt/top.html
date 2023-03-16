@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="top">
+  <h2 class="top__title">
+    管理TOP
+  </h2>
+
+  <ul class="top__list">
+    <li class="top__item">
+      <a class="top__link" href="{% url 'mgmt:fruit' %}">
+        果物マスタ管理
+      </a>
+    </li>
+
+    <li class="top__item">
+      <a class="top__link" href="{% url 'mgmt:sales' %}">
+        販売情報管理
+      </a>
+    </li>
+
+    <li class="top__item">
+      <a class="top__link" href="{% url 'mgmt:statistics' %}">
+        販売統計情報
+      </a>
+    </li>
+  </ul>
+</div>
+{% endblock %}

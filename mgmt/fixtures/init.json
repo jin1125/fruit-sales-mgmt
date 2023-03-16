@@ -1,0 +1,87 @@
+[
+  {
+    "model": "mgmt.fruit",
+    "pk": 1,
+    "fields": {
+      "name": "リンゴ",
+      "price": 90,
+      "created_at": "2016-01-01T00:00:00+09:00",
+      "updated_at": "2016-01-01T00:00:00+09:00",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mgmt.fruit",
+    "pk": 2,
+    "fields": {
+      "name": "パイナップル",
+      "price": 250,
+      "created_at": "2016-01-01T00:00:00+09:00",
+      "updated_at": "2016-01-01T00:00:00+09:00",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mgmt.fruit",
+    "pk": 3,
+    "fields": {
+      "name": "レモン",
+      "price": 80,
+      "created_at": "2016-01-02T00:00:00+09:00",
+      "updated_at": "2016-01-02T00:00:00+09:00",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mgmt.fruit",
+    "pk": 4,
+    "fields": {
+      "name": "グレープフルーツ",
+      "price": 100,
+      "created_at": "2016-01-03T00:00:00+09:00",
+      "updated_at": "2016-01-03T00:00:00+09:00",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mgmt.fruit",
+    "pk": 5,
+    "fields": {
+      "name": "ブルーベリー",
+      "price": 300,
+      "created_at": "2016-01-03T00:00:00+09:00",
+      "updated_at": "2016-01-03T00:00:00+09:00",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mgmt.sales",
+    "pk": 1,
+    "fields": {
+      "fruit": 3,
+      "quantity": 3,
+      "total": 240,
+      "sale_date": "2016-01-15T12:30:00+09:00"
+    }
+  },
+  {
+    "model": "mgmt.sales",
+    "pk": 2,
+    "fields": {
+      "fruit": 1,
+      "quantity": 3,
+      "total": 270,
+      "sale_date": "2016-02-01T10:35:00+09:00"
+    }
+  },
+  {
+    "model": "mgmt.sales",
+    "pk": 3,
+    "fields": {
+      "fruit": 5,
+      "quantity": 3,
+      "total": 900,
+      "sale_date": "2016-02-02T10:30:00+09:00"
+    }
+  }
+]
