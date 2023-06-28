@@ -16,16 +16,17 @@ from mgmt.views import statistics_view
 
 class StatisticsTest(TestCase):
     """販売統計情報のテスト"""
+
     def setUp(self):
-        """"テストデータの初期設定"""
+        """テストデータの初期設定"""
         self.user = User.objects.create_user(
-            username='test_user',
-            password='test_password',
+            username="test_user",
+            password="test_password",
         )
         self.client.force_login(self.user)
-        self.login_path = reverse('mgmt:login')
-        self.statistics_path = reverse('mgmt:statistics')
-        self.expected_path = self.login_path + '?next=' + self.statistics_path
+        self.login_path = reverse("mgmt:login")
+        self.statistics_path = reverse("mgmt:statistics")
+        self.expected_path = self.login_path + "?next=" + self.statistics_path
 
     def tearDown(self):
         """テスト後に生成物を削除"""
@@ -47,12 +48,12 @@ class StatisticsTest(TestCase):
     def test_uses_expected_template(self):
         """想定したテンプレートのレスポンスが返ってくるかテスト"""
         response = self.client.get(self.statistics_path)
-        self.assertTemplateUsed(response, 'mgmt/statistics.html')
+        self.assertTemplateUsed(response, "mgmt/statistics.html")
 
     def test_should_return_expected_title(self):
         """想定したタイトルが表示されるかテスト"""
         response = self.client.get(self.statistics_path)
-        self.assertContains(response, '販売統計情報')
+        self.assertContains(response, "販売統計情報")
 
     def test_redirect_expected_page_when_logged_out(self):
         """未ログインの場合、ログインページにリダイレクトされるかテスト"""
@@ -68,17 +69,18 @@ class StatisticsTest(TestCase):
 
 class StatisticsAllPeriodTest(TestCase):
     """販売統計情報(全期間)のテスト"""
+
     def setUp(self):
-        """"テストデータの初期設定"""
+        """テストデータの初期設定"""
         self.user = User.objects.create_user(
-            username='test_user',
-            password='test_password',
+            username="test_user",
+            password="test_password",
         )
         self.client.force_login(self.user)
         jst = datetime.timezone(datetime.timedelta(hours=9))
         fruit_create_date = datetime.datetime(2022, 1, 1, tzinfo=jst)
         self.fruit = Fruit.objects.create(
-            name='リンゴ',
+            name="リンゴ",
             price=100,
             created_at=fruit_create_date,
             updated_at=fruit_create_date,
@@ -105,8 +107,8 @@ class StatisticsAllPeriodTest(TestCase):
             total=300,
             sale_date=last_month_first_day,
         )
-        two_months_ago_last_day = (
-            self.sales_3.sale_date - datetime.timedelta(days=1)
+        two_months_ago_last_day = self.sales_3.sale_date - datetime.timedelta(
+            days=1
         )
         self.sales_4 = Sales.objects.create(
             fruit=self.fruit,
@@ -130,7 +132,7 @@ class StatisticsAllPeriodTest(TestCase):
             total=600,
             sale_date=three_months_ago_last_day,
         )
-        self.statistics_path = reverse('mgmt:statistics')
+        self.statistics_path = reverse("mgmt:statistics")
 
     def tearDown(self):
         """テスト後に生成物を削除"""
@@ -141,23 +143,24 @@ class StatisticsAllPeriodTest(TestCase):
     def test_should_return_all_period_total(self):
         """累計金額(全期間)の値が表示されるかテスト"""
         response = self.client.get(self.statistics_path)
-        all_period_total = Sales.objects.aggregate(Sum('total'))['total__sum']
+        all_period_total = Sales.objects.aggregate(Sum("total"))["total__sum"]
         self.assertContains(response, all_period_total)
 
 
 class StatisticsMonthlyPeriodTest(TestCase):
     """販売統計情報(月別の当月を含む過去3ヶ月間)のテスト"""
+
     def setUp(self):
-        """"テストデータの初期設定"""
+        """テストデータの初期設定"""
         self.user = User.objects.create_user(
-            username='test_user',
-            password='test_password',
+            username="test_user",
+            password="test_password",
         )
         self.client.force_login(self.user)
         jst = datetime.timezone(datetime.timedelta(hours=9))
         fruit_create_date = datetime.datetime(2022, 1, 1, tzinfo=jst)
         self.fruit = Fruit.objects.create(
-            name='リンゴ',
+            name="リンゴ",
             price=100,
             created_at=fruit_create_date,
             updated_at=fruit_create_date,
@@ -184,8 +187,8 @@ class StatisticsMonthlyPeriodTest(TestCase):
             total=300,
             sale_date=last_month_first_day,
         )
-        two_months_ago_last_day = (
-            self.sales_3.sale_date - datetime.timedelta(days=1)
+        two_months_ago_last_day = self.sales_3.sale_date - datetime.timedelta(
+            days=1
         )
         self.sales_4 = Sales.objects.create(
             fruit=self.fruit,
@@ -209,7 +212,7 @@ class StatisticsMonthlyPeriodTest(TestCase):
             total=600,
             sale_date=three_months_ago_last_day,
         )
-        self.statistics_path = reverse('mgmt:statistics')
+        self.statistics_path = reverse("mgmt:statistics")
 
     def tearDown(self):
         """テスト後に生成物を削除"""
@@ -240,7 +243,7 @@ class StatisticsMonthlyPeriodTest(TestCase):
         response = self.client.get(self.statistics_path)
         self.assertContains(
             response,
-            datetime.datetime.strftime(self.sales_1.sale_date, '%Y/%m')
+            datetime.datetime.strftime(self.sales_1.sale_date, "%Y/%m"),
         )
 
     def test_should_return_monthly_period_last_month_date(self):
@@ -248,7 +251,7 @@ class StatisticsMonthlyPeriodTest(TestCase):
         response = self.client.get(self.statistics_path)
         self.assertContains(
             response,
-            datetime.datetime.strftime(self.sales_3.sale_date, '%Y/%m')
+            datetime.datetime.strftime(self.sales_3.sale_date, "%Y/%m"),
         )
 
     def test_should_return_monthly_period_two_months_ago_date(self):
@@ -256,7 +259,7 @@ class StatisticsMonthlyPeriodTest(TestCase):
         response = self.client.get(self.statistics_path)
         self.assertContains(
             response,
-            datetime.datetime.strftime(self.sales_5.sale_date, '%Y/%m')
+            datetime.datetime.strftime(self.sales_5.sale_date, "%Y/%m"),
         )
 
     def test_should_return_monthly_period_current_month_fruit_name(self):
@@ -294,17 +297,18 @@ class StatisticsMonthlyPeriodTest(TestCase):
 
 class StatisticsDailyPeriodTest(TestCase):
     """販売統計情報(日別の当日を含む過去3日間)のテスト"""
+
     def setUp(self):
-        """"テストデータの初期設定"""
+        """テストデータの初期設定"""
         self.user = User.objects.create_user(
-            username='test_user',
-            password='test_password',
+            username="test_user",
+            password="test_password",
         )
         self.client.force_login(self.user)
         jst = datetime.timezone(datetime.timedelta(hours=9))
         fruit_create_date = datetime.datetime(2022, 1, 1, tzinfo=jst)
         self.fruit = Fruit.objects.create(
-            name='リンゴ',
+            name="リンゴ",
             price=100,
             created_at=fruit_create_date,
             updated_at=fruit_create_date,
@@ -338,7 +342,7 @@ class StatisticsDailyPeriodTest(TestCase):
             total=200,
             sale_date=date_three_days_ago,
         )
-        self.statistics_path = reverse('mgmt:statistics')
+        self.statistics_path = reverse("mgmt:statistics")
 
     def tearDown(self):
         """テスト後に生成物を削除"""
@@ -366,7 +370,7 @@ class StatisticsDailyPeriodTest(TestCase):
         response = self.client.get(self.statistics_path)
         self.assertContains(
             response,
-            datetime.datetime.strftime(self.sales_1.sale_date, '%Y/%m/%d')
+            datetime.datetime.strftime(self.sales_1.sale_date, "%Y/%m/%d"),
         )
 
     def test_should_return_daily_period_one_days_ago_date(self):
@@ -374,7 +378,7 @@ class StatisticsDailyPeriodTest(TestCase):
         response = self.client.get(self.statistics_path)
         self.assertContains(
             response,
-            datetime.datetime.strftime(self.sales_2.sale_date, '%Y/%m/%d')
+            datetime.datetime.strftime(self.sales_2.sale_date, "%Y/%m/%d"),
         )
 
     def test_should_return_daily_period_two_days_ago_date(self):
@@ -382,7 +386,7 @@ class StatisticsDailyPeriodTest(TestCase):
         response = self.client.get(self.statistics_path)
         self.assertContains(
             response,
-            datetime.datetime.strftime(self.sales_3.sale_date, '%Y/%m/%d')
+            datetime.datetime.strftime(self.sales_3.sale_date, "%Y/%m/%d"),
         )
 
     def test_should_return_daily_period_today_fruit_name(self):

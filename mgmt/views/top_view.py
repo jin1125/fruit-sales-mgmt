@@ -9,4 +9,5 @@ from django.views.generic import TemplateView
 
 class TopView(LoginRequiredMixin, TemplateView):
     """トップのビューを定義"""
-    template_name = 'mgmt/top.html'
+
+    template_name = "mgmt/top.html"

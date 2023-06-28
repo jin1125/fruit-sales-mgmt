@@ -9,4 +9,5 @@ from django.views.generic import RedirectView
 
 class NotFoundRedirectView(RedirectView):
     """リダイレクトのビューを定義"""
-    url = reverse_lazy('mgmt:login')
+
+    url = reverse_lazy("mgmt:login")

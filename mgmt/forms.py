@@ -20,16 +20,18 @@ from mgmt.models import Fruit, Sales
 
 class FruitForm(forms.ModelForm):
     """果物マスタ管理(登録, 編集)のフォームを定義"""
+
     class Meta:
-        fields = ('name', 'price')
+        fields = ("name", "price")
         model = Fruit
 
 
 class SalesCSVForm(forms.Form):
     """販売情報管理(CSVインポート)のフォームを定義"""
+
     csv = forms.FileField(
-        label='CSV一括登録',
-        validators=[FileExtensionValidator(['csv'])],
+        label="CSV一括登録",
+        validators=[FileExtensionValidator(["csv"])],
     )
 
     def load_csv(self, csv_data):
@@ -46,7 +48,7 @@ class SalesCSVForm(forms.Form):
         csv_reader: reader
             CSVリーダー
         """
-        csv_text = csv_data.read().decode('utf-8')
+        csv_text = csv_data.read().decode("utf-8")
         csv_file = io.StringIO(csv_text)
         return csv.reader(csv_file)
 
@@ -64,43 +66,35 @@ class SalesCSVForm(forms.Form):
         FormatCsv: FormatCsv
             Sales生成の為の引数
         """
-        DATE_REGEX = r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$'
+        DATE_REGEX = r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"
 
         if not record[1].isdigit():
-            raise ValueError(
-                '個数に数値以外が入力されています'
-            )
+            raise ValueError("個数に数値以外が入力されています")
 
         if not record[2].isdigit():
-            raise ValueError(
-                '売り上げに数値以外が入力されています'
-            )
+            raise ValueError("売り上げに数値以外が入力されています")
 
         if int(record[1]) < 0:
-            raise ValueError(
-                '個数にマイナスの数値が入力されています'
-            )
+            raise ValueError("個数にマイナスの数値が入力されています")
 
         if int(record[2]) < 0:
-            raise ValueError(
-                '売り上げにマイナスの数値が入力されています'
-            )
+            raise ValueError("売り上げにマイナスの数値が入力されています")
 
         if not re.fullmatch(DATE_REGEX, record[3]):
-            raise ValueError(
-                '販売日時が YYYY-MM-DD HH:MM 形式になっていません'
-            )
+            raise ValueError("販売日時が YYYY-MM-DD HH:MM 形式になっていません")
 
         jst = datetime.timezone(datetime.timedelta(hours=9))
         FormatCsv = collections.namedtuple(
-            'FormatCsv',
-            ['fruit', 'quantity', 'total', 'sale_date'],
+            "FormatCsv",
+            ["fruit", "quantity", "total", "sale_date"],
         )
         return FormatCsv(
             Fruit.objects.get(name=record[0]),
             int(record[1]),
             int(record[2]),
-            datetime.datetime.fromisoformat(record[3],).replace(tzinfo=jst)
+            datetime.datetime.fromisoformat(
+                record[3],
+            ).replace(tzinfo=jst),
         )
 
     def get_sales_list(self, csv_reader):
@@ -134,22 +128,22 @@ class SalesCSVForm(forms.Form):
                 logging.warning(e)
 
                 self.add_error(
-                    'csv',
-                    f'CSVデータ{i + 1}行目の果物が見つかりませんでした。',
+                    "csv",
+                    f"CSVデータ{i + 1}行目の果物が見つかりませんでした。",
                 )
             except ValueError as e:
                 logging.warning(e)
 
                 self.add_error(
-                    'csv',
-                    f'CSVデータ{i + 1}行目の{e}',
+                    "csv",
+                    f"CSVデータ{i + 1}行目の{e}",
                 )
             except Exception as e:
                 logging.warning(e)
 
                 self.add_error(
-                    'csv',
-                    f'CSVデータ{i + 1}行目でエラーが発生しました。',
+                    "csv",
+                    f"CSVデータ{i + 1}行目でエラーが発生しました。",
                 )
         return sales_list
 
@@ -170,6 +164,7 @@ class SalesCSVForm(forms.Form):
 
 class SalesForm(forms.ModelForm):
     """販売情報管理(登録, 編集)のフォームを定義"""
+
     class Meta:
-        fields = ('fruit', 'quantity', 'sale_date')
+        fields = ("fruit", "quantity", "sale_date")
         model = Sales

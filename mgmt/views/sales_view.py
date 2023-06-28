@@ -13,12 +13,11 @@ from mgmt.models import Sales
 
 class SalesListView(LoginRequiredMixin, ListView):
     """販売情報管理(一覧)のビューを定義"""
-    context_object_name = 'sales_list'
-    extra_context = {
-        "table_headers": ['果物', '個数', '売り上げ', '販売日時', '', '']
-    }
-    queryset = Sales.objects.order_by('-sale_date')
-    template_name = 'mgmt/sales.html'
+
+    context_object_name = "sales_list"
+    extra_context = {"table_headers": ["果物", "個数", "売り上げ", "販売日時", "", ""]}
+    queryset = Sales.objects.order_by("-sale_date")
+    template_name = "mgmt/sales.html"
 
     def get_context_data(self, *args, **kwargs):
         """
@@ -30,7 +29,7 @@ class SalesListView(LoginRequiredMixin, ListView):
             SalesCSVFormを追加したコンテキスト
         """
         context = super().get_context_data(*args, **kwargs)
-        context['form'] = SalesCSVForm()
+        context["form"] = SalesCSVForm()
         return context
 
     def post(self, request):
@@ -55,21 +54,22 @@ class SalesListView(LoginRequiredMixin, ListView):
         form = SalesCSVForm(request.POST, request.FILES)
 
         if form.is_valid():
-            csv_data = request.FILES['csv']
+            csv_data = request.FILES["csv"]
             form.save_csv(csv_data)
 
         self.object_list = self.get_queryset()
         context = self.get_context_data()
-        context['form'] = form
+        context["form"] = form
         return self.render_to_response(context)
 
 
 class SalesCreateView(LoginRequiredMixin, CreateView):
     """販売情報管理(登録)のビューを定義"""
+
     form_class = SalesForm
     model = Sales
-    success_url = reverse_lazy('mgmt:sales')
-    template_name = 'mgmt/sales_form.html'
+    success_url = reverse_lazy("mgmt:sales")
+    template_name = "mgmt/sales_form.html"
 
     def form_valid(self, form):
         """
@@ -94,10 +94,11 @@ class SalesCreateView(LoginRequiredMixin, CreateView):
 
 class SalesUpdateView(LoginRequiredMixin, UpdateView):
     """販売情報管理(編集)のビューを定義"""
+
     form_class = SalesForm
     model = Sales
-    success_url = reverse_lazy('mgmt:sales')
-    template_name = 'mgmt/sales_form.html'
+    success_url = reverse_lazy("mgmt:sales")
+    template_name = "mgmt/sales_form.html"
 
     def form_valid(self, form):
         """
@@ -122,5 +123,6 @@ class SalesUpdateView(LoginRequiredMixin, UpdateView):
 
 class SalesDeleteView(LoginRequiredMixin, DeleteView):
     """販売情報管理(削除)のビューを定義"""
+
     model = Sales
-    success_url = reverse_lazy('mgmt:sales')
+    success_url = reverse_lazy("mgmt:sales")

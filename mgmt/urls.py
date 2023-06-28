@@ -16,71 +16,70 @@ from mgmt.views import (
     redirect_view,
     sales_view,
     statistics_view,
-    top_view
+    top_view,
 )
 
-
-app_name = 'mgmt'
+app_name = "mgmt"
 
 urlpatterns = [
     path(
-        'login/',
+        "login/",
         login_view.UserLoginView.as_view(),
-        name='login',
+        name="login",
     ),
     path(
-        'top/',
+        "top/",
         top_view.TopView.as_view(),
-        name='top',
+        name="top",
     ),
     path(
-        'fruit/',
+        "fruit/",
         fruit_view.FruitListView.as_view(),
-        name='fruit',
+        name="fruit",
     ),
     path(
-        'fruit/create/',
+        "fruit/create/",
         fruit_view.FruitCreateView.as_view(),
-        name='fruit_create',
+        name="fruit_create",
     ),
     path(
-        'fruit/update/<int:pk>/',
+        "fruit/update/<int:pk>/",
         fruit_view.FruitUpdateView.as_view(),
-        name='fruit_update',
+        name="fruit_update",
     ),
     path(
-        'fruit/delete/<int:pk>/',
+        "fruit/delete/<int:pk>/",
         fruit_view.FruitDeleteView.as_view(),
-        name='fruit_delete',
+        name="fruit_delete",
     ),
     path(
-        'sales/',
+        "sales/",
         sales_view.SalesListView.as_view(),
-        name='sales',
+        name="sales",
     ),
     path(
-        'sales/create/',
+        "sales/create/",
         sales_view.SalesCreateView.as_view(),
-        name='sales_create',
+        name="sales_create",
     ),
     path(
-        'sales/update/<int:pk>/',
+        "sales/update/<int:pk>/",
         sales_view.SalesUpdateView.as_view(),
-        name='sales_update',
+        name="sales_update",
     ),
     path(
-        'sales/delete/<int:pk>/',
+        "sales/delete/<int:pk>/",
         sales_view.SalesDeleteView.as_view(),
-        name='sales_delete',
+        name="sales_delete",
     ),
     path(
-        'statistics/',
+        "statistics/",
         statistics_view.StatisticsListView.as_view(),
-        name='statistics',
+        name="statistics",
     ),
     re_path(
-        r'^.*$',
+        r"^.*$",
         redirect_view.NotFoundRedirectView.as_view(),
-        name='redirect',
+        name="redirect",
     ),
 ]

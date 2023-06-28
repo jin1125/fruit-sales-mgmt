@@ -34,7 +34,7 @@
 }
 
 @mixin link($fSize: 16px) {
-  color: #0000FF;
+  color: #0000ff;
   display: inline-block;
   font-size: $fSize;
   text-decoration: underline;
@@ -61,12 +61,12 @@
   border-collapse: collapse;
   min-width: $w;
 
-  &-row:nth-child(2n+2) {
-    background-color: #EEEEEE;
+  &-row:nth-child(2n + 2) {
+    background-color: #eeeeee;
   }
 
   &-header {
-    background-color: #CCCCCC;
+    background-color: #cccccc;
     border-right: 2px solid;
     font-weight: normal;
     padding: 3px 5px;

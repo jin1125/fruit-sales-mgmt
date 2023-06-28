@@ -9,10 +9,11 @@ from django.urls import reverse
 
 class RedirectTest(TestCase):
     """リダイレクト(404)のテスト"""
+
     def test_redirect_expected_page_when_logged_out(self):
         """未定義URLへのアクセスは、ログインページにリダイレクトされるかテスト"""
-        test_404_path = '/test_404_path/'
-        expected_path = reverse('mgmt:login')
+        test_404_path = "/test_404_path/"
+        expected_path = reverse("mgmt:login")
         response = self.client.get(test_404_path)
         self.assertRedirects(
             response,

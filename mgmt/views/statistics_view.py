@@ -14,13 +14,14 @@ from mgmt.models import Sales
 
 class StatisticsListView(LoginRequiredMixin, ListView):
     """販売統計情報のビューを定義"""
-    context_object_name = 'statistics_list'
+
+    context_object_name = "statistics_list"
     extra_context = {
-        "monthly_table_headers": ['月', '売り上げ', '内訳'],
-        "daily_table_headers": ['日', '売り上げ', '内訳'],
+        "monthly_table_headers": ["月", "売り上げ", "内訳"],
+        "daily_table_headers": ["日", "売り上げ", "内訳"],
     }
     model = Sales
-    template_name = 'mgmt/statistics.html'
+    template_name = "mgmt/statistics.html"
 
     def get_target_start_month(self):
         """
@@ -34,12 +35,12 @@ class StatisticsListView(LoginRequiredMixin, ListView):
         """
         today = datetime.date.today()
         current_month_first_day = today.replace(day=1)
-        last_month_last_day = (
-            current_month_first_day - datetime.timedelta(days=1)
+        last_month_last_day = current_month_first_day - datetime.timedelta(
+            days=1
         )
         last_month_first_day = last_month_last_day.replace(day=1)
-        two_months_ago_last_day = (
-            last_month_first_day - datetime.timedelta(days=1)
+        two_months_ago_last_day = last_month_first_day - datetime.timedelta(
+            days=1
         )
         return two_months_ago_last_day.replace(day=1)
 
@@ -59,33 +60,32 @@ class StatisticsListView(LoginRequiredMixin, ListView):
         """
         target_start_month = self.get_target_start_month()
         monthly_sales_list = [
-            sales for sales in sales_list
+            sales
+            for sales in sales_list
             if sales.sale_date.date() >= target_start_month
         ]
         monthly_sales = {}
 
         for sales in monthly_sales_list:
-            date = datetime.datetime.strftime(sales.sale_date, '%Y/%m')
+            date = datetime.datetime.strftime(sales.sale_date, "%Y/%m")
             fruit_name = sales.fruit.name
 
             if date not in monthly_sales:
-                monthly_sales[date] = {
-                    'period_total': 0,
-                    'breakdown': {}
+                monthly_sales[date] = {"period_total": 0, "breakdown": {}}
+
+            if fruit_name not in monthly_sales[date]["breakdown"]:
+                monthly_sales[date]["breakdown"][fruit_name] = {
+                    "total": 0,
+                    "quantity": 0,
                 }
 
-            if fruit_name not in monthly_sales[date]['breakdown']:
-                monthly_sales[date]['breakdown'][fruit_name] = {
-                    'total': 0,
-                    'quantity': 0
-                }
-
-            monthly_sales[date]['period_total']\
-                += sales.total
-            monthly_sales[date]['breakdown'][fruit_name]['total']\
-                += sales.total
-            monthly_sales[date]['breakdown'][fruit_name]['quantity']\
-                += sales.quantity
+            monthly_sales[date]["period_total"] += sales.total
+            monthly_sales[date]["breakdown"][fruit_name][
+                "total"
+            ] += sales.total
+            monthly_sales[date]["breakdown"][fruit_name][
+                "quantity"
+            ] += sales.quantity
         return monthly_sales
 
     def get_daily_sales(self, sales_list):
@@ -104,33 +104,30 @@ class StatisticsListView(LoginRequiredMixin, ListView):
         """
         target_start_date = datetime.date.today() - datetime.timedelta(days=2)
         daily_sales_list = [
-            sales for sales in sales_list
+            sales
+            for sales in sales_list
             if sales.sale_date.date() >= target_start_date
         ]
         daily_sales = {}
 
         for sales in daily_sales_list:
-            date = datetime.datetime.strftime(sales.sale_date, '%Y/%m/%d')
+            date = datetime.datetime.strftime(sales.sale_date, "%Y/%m/%d")
             fruit_name = sales.fruit.name
 
             if date not in daily_sales:
-                daily_sales[date] = {
-                    'period_total': 0,
-                    'breakdown': {}
+                daily_sales[date] = {"period_total": 0, "breakdown": {}}
+
+            if fruit_name not in daily_sales[date]["breakdown"]:
+                daily_sales[date]["breakdown"][fruit_name] = {
+                    "total": 0,
+                    "quantity": 0,
                 }
 
-            if fruit_name not in daily_sales[date]['breakdown']:
-                daily_sales[date]['breakdown'][fruit_name] = {
-                    'total': 0,
-                    'quantity': 0
-                }
-
-            daily_sales[date]['period_total']\
-                += sales.total
-            daily_sales[date]['breakdown'][fruit_name]['total']\
-                += sales.total
-            daily_sales[date]['breakdown'][fruit_name]['quantity']\
-                += sales.quantity
+            daily_sales[date]["period_total"] += sales.total
+            daily_sales[date]["breakdown"][fruit_name]["total"] += sales.total
+            daily_sales[date]["breakdown"][fruit_name][
+                "quantity"
+            ] += sales.quantity
         return daily_sales
 
     def get_context_data(self, *args, **kwargs):
@@ -146,7 +143,7 @@ class StatisticsListView(LoginRequiredMixin, ListView):
             累計、月別、日別の販売統計情報を追加したコンテキスト
         """
         context = super().get_context_data(*args, **kwargs)
-        sales_list = context['object_list']
+        sales_list = context["object_list"]
 
         for sales in sales_list:
             sales.sale_date = timezone.localtime(sales.sale_date)
@@ -155,7 +152,7 @@ class StatisticsListView(LoginRequiredMixin, ListView):
         monthly_sales = self.get_monthly_sales(sales_list)
         daily_sales = self.get_daily_sales(sales_list)
 
-        context['all_period_total'] = all_period_total
-        context['monthly_sales'] = monthly_sales
-        context['daily_sales'] = daily_sales
+        context["all_period_total"] = all_period_total
+        context["monthly_sales"] = monthly_sales
+        context["daily_sales"] = daily_sales
         return context
