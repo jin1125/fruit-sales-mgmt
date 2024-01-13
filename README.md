@@ -31,65 +31,54 @@
 
 - 仮想環境を作成
 
-  ```python
-  python3 -m venv venv
-  ```
+    ```shell
+    python3 -m venv venv
+    ```
 
 - 仮想環境の有効化
 
-  ```python
+  ```shell
   source venv/bin/activate
   ```
 
 - pip をアップデート
 
-  ```python
+  ```shell
   pip3 install --upgrade pip
   ```
 
 - Django をインストール
 
-  ```python
+  ```shell
   pip3 install -r requirements.txt
   ```
 
 - DB テーブルを生成
 
-  ```python
+  ```shell
   python3 manage.py migrate
   ```
 
 - ユーザーを作成
 
-  ```python
+  ```shell
   python3 manage.py createsuperuser
   ```
 
 - 初期データを設定
 
-  ```python
+  ```shell
   python3 manage.py loaddata init.json
   ```
 
 - 開発用サーバーを起動
 
-  ```python
+  ```shell
   python3 manage.py runserver
   ```
 
 - 表示された URL にアクセス
 
-  ```python
-  http://127.0.0.1:8000/ など
+  ```shell
+  http://127.0.0.1:8000/
   ```
-
----
-
-## ポイント
-
-- 保守性を意識した実装
-  - docstring
-  - テストコード
-  - テストの自動化
-  - 動的な設定値を env 設定
-  - ファイル分割(views, tests)
